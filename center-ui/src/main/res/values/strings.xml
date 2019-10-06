@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GIt Center</string>
+    <string name="app_name">Git Center</string>
     <string name="unexpected_error_title">UnExpected Error</string>
     <string name="welcome_des">Welcome To Git Center … Git Center is An Client For Github And Bitbucket To Manage The
         Accounts With All Operations At The Account … Login At Your Github Account To Start Using The Project
