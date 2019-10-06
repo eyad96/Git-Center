@@ -1,0 +1,33 @@
+apply plugin: "${rootProject.ext.AttoPlugin}"
+
+dependencies { configuration ->
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "io.atto:atto-data-ktx:1.0.4"
+    testingConfiguration(configuration)
+    lifecycleConfiguration(configuration)
+    layersConfiguration(configuration)
+}
+
+private void testingConfiguration(configuration) {
+    def TestingConfiguration = rootProject.ext.TestingConfiguration
+    configuration.androidTestImplementation TestingConfiguration.Esspresso
+    configuration.androidTestImplementation TestingConfiguration.Runner
+    configuration.testImplementation TestingConfiguration.Junit
+}
+
+
+private void lifecycleConfiguration(configuration) {
+    def LifeCycleConfiguration = rootProject.ext.LifeCycleConfiguration
+    configuration.implementation LifeCycleConfiguration.LifecycleViewModel
+    configuration.implementation LifeCycleConfiguration.LifecycleExtensions
+    configuration.implementation LifeCycleConfiguration.LifecycleRuntime
+    configuration.implementation LifeCycleConfiguration.LifecycleLiveData
+    configuration.implementation LifeCycleConfiguration.LifecycleCommon
+    configuration.implementation LifeCycleConfiguration.LifecycleCommonJava8
+}
+
+private void layersConfiguration(configuration) {
+    def layersConfiguration = rootProject.ext.layersConfiguration
+    configuration.implementation project(layersConfiguration.Domain)
+    configuration.implementation project(layersConfiguration.Data)
+}

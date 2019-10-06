@@ -1,0 +1,2 @@
+include ':center-ui', ':center-data', ':center-domain', ':center-logic'
+rootProject.name='GIt Center'

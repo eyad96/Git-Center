@@ -1,0 +1,29 @@
+ext {
+    CompileSdkV = 28
+    buildToolV = "29.0.0"
+    appId = "com.yazan98.git.center"
+    MinSdkV = 23
+    VersionCode = 1
+    renderscriptTargetApi = 18
+    renderscriptSupportModeEnabled = true
+    MultiDexMergeEnabled = true
+    VersionName = "1.0"
+    AndroidTesting = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    ProguardFile = "proguard-android-optimize.txt"
+    Proguard = "proguard-rules.pro"
+    AndroidJUnitRunner = "android.support.test.runner.AndroidJUnitRunner"
+    AndroidRunnerArgument = "listener"
+    LeakCanaryListener = "com.squareup.leakcanary.FailTestOnLeakRunListener"
+    renderApiTarget = 19
+    scriptRenderingEnabled = true
+    HttpLegacyEnabled = "org.apache.http.legacy"
+
+    sourceCompatibilityV = "1.8"
+    targetCompatibilityV = "1.8"
+
+    EasyLauncherForground = "@mipmap/ic_launcher_foreground"
+    KotlinSource = "src/main/kotlin"
+    ResConfig = "en"
+    VectorImagesEnabled = true
+}

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">GIt Center</string>
+    <string name="unexpected_error_title">UnExpected Error</string>
+    <string name="welcome_des">Welcome To Git Center … Git Center is An Client For Github And Bitbucket To Manage The
+        Accounts With All Operations At The Account … Login At Your Github Account To Start Using The Project
+    </string>
+    <string name="welcoem_btn">Continue</string>
+
+    <string name="on_boarding_one_title">Keep</string>
+    <string name="on_boarding_one_des">Keep Your Github Data At Your Phone To Access it Any Time With Amazing Client</string>
+
+    <string name="on_boarding_two_title">Android Client</string>
+    <string name="on_boarding_two_des">Android Application To Show And Manage Everything At Your Github Account From Your Repositories or Organizations With Amazing Client</string>
+
+    <string name="on_boarding_three_title">ExChange</string>
+    <string name="on_boarding_three_des">Control Everything At The Repository Comment , Submit Issues , Everything At Each Repository</string>
+
+</resources>

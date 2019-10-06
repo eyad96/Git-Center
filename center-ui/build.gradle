@@ -1,0 +1,209 @@
+import java.text.SimpleDateFormat
+
+apply plugin: "${rootProject.ext.AndroidApplicationPlugin}"
+apply plugin: "${rootProject.ext.KotlinAndroidPlugin}"
+apply plugin: "${rootProject.ext.EasyLauncherPlugin}"
+apply plugin: "${rootProject.ext.KotlinAndroidExtentionsPlugin}"
+apply plugin: "${rootProject.ext.KotlinKaptPlugin}"
+apply plugin: "${rootProject.ext.navigationPlugin}"
+apply plugin: "${rootProject.ext.AttoPlugin}"
+
+android {
+    compileSdkVersion rootProject.ext.CompileSdkV
+    buildToolsVersion "${rootProject.ext.buildToolV}"
+    useLibrary "${rootProject.ext.HttpLegacyEnabled}"
+
+    defaultConfig {
+        applicationId "${rootProject.ext.appId}"
+        minSdkVersion rootProject.ext.MinSdkV
+        targetSdkVersion rootProject.ext.CompileSdkV
+        versionCode rootProject.ext.VersionCode
+        renderscriptTargetApi rootProject.ext.renderscriptTargetApi
+        renderscriptSupportModeEnabled rootProject.ext.renderscriptSupportModeEnabled
+        multiDexEnabled rootProject.ext.MultiDexMergeEnabled
+        versionName "${rootProject.ext.VersionName}"
+        testInstrumentationRunner "${rootProject.ext.testInstrumentationRunner}"
+        testInstrumentationRunner "${rootProject.ext.AndroidJUnitRunner}"
+        renderscriptTargetApi rootProject.ext.renderApiTarget
+        renderscriptSupportModeEnabled rootProject.ext.scriptRenderingEnabled
+        resConfigs "en", "ar"
+        testInstrumentationRunnerArgument "${rootProject.ext.AndroidRunnerArgument}", "${rootProject.ext.LeakCanaryListener}"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+
+        debug {
+            minifyEnabled false
+            debuggable true
+            ext.enableCrashlytics = false
+//            buildConfigField "String", "BaseUrl", DevBaseUrl
+            manifestPlaceholders = [enableCrashReporting:"false"]
+            proguardFiles getDefaultProguardFile("${rootProject.ext.ProguardFile}"), "${rootProject.ext.Proguard}"
+        }
+
+        release {
+            minifyEnabled true
+            debuggable false
+            ext.enableCrashlytics = true
+//            buildConfigField "String", "BaseUrl", ReleaseBaseUrl
+            manifestPlaceholders = [enableCrashReporting:"true"]
+            proguardFiles getDefaultProguardFile("${rootProject.ext.ProguardFile}"), "${rootProject.ext.Proguard}"
+        }
+
+    }
+
+    sourceSets {
+        main.java.srcDirs += "${rootProject.ext.KotlinSource}"
+    }
+
+    easylauncher {
+        foregroundIconNames "${rootProject.ext.EasyLauncherForground}"
+    }
+
+    compileOptions {
+        sourceCompatibility = "${rootProject.ext.sourceCompatibilityV}"
+        targetCompatibility = "${rootProject.ext.targetCompatibilityV}"
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    lintOptions {
+        disable 'ContentDescription',
+                'ObsoleteLintCustomCheck',
+                'CheckResult'
+    }
+
+    applicationVariants.all { variant ->
+        def profileName
+        if (getGradle().getStartParameter().getTaskRequests().toString().contains("Debug")) {
+            profileName = "-Debug Version"
+        } else {
+            profileName = "-Release Version"
+        }
+        def appName = "Git Center ${profileName}"
+        variant.outputs.all { output ->
+            def newApkName
+            newApkName = "${appName}-${versionName}-${new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)}.apk"
+            output.outputFileName = new File(newApkName)
+        }
+    }
+
+}
+
+dependencies { configuration ->
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testingConfiguration(configuration)
+    googlePlayServices(configuration)
+    firebaseConfiguration(configuration)
+    lifecycleConfiguration(configuration)
+    daggerConfig(configuration)
+    dataConfigurion(configuration)
+    uiConfiguration(configuration)
+    applicationConfiguration(configuration)
+    layersConfiguration(configuration)
+}
+
+private void testingConfiguration(configuration) {
+    def TestingConfiguration = rootProject.ext.TestingConfiguration
+    configuration.androidTestImplementation TestingConfiguration.Esspresso
+    configuration.androidTestImplementation TestingConfiguration.Runner
+    configuration.testImplementation TestingConfiguration.Junit
+}
+
+private void googlePlayServices(configuration) {
+    def GooglePlayServices = rootProject.ext.GooglePlayServices
+    configuration.implementation GooglePlayServices.GoogleMaps
+    configuration.implementation GooglePlayServices.GooglePlaces
+    configuration.implementation GooglePlayServices.GoogleGcm
+    configuration.implementation GooglePlayServices.GoogleLocations
+}
+
+private void firebaseConfiguration(configuration) {
+    def FirebaseConfiguration = rootProject.ext.FirebaseConfiguration
+    configuration.implementation FirebaseConfiguration.FirebaseCore
+    configuration.implementation FirebaseConfiguration.FirebaseFirestore
+    configuration.implementation FirebaseConfiguration.FirebaseMessaging
+    configuration.implementation FirebaseConfiguration.FirebaseStorage
+    configuration.implementation FirebaseConfiguration.Crashlytics
+}
+
+private void lifecycleConfiguration(configuration) {
+    def LifeCycleConfiguration = rootProject.ext.LifeCycleConfiguration
+    configuration.implementation LifeCycleConfiguration.LifecycleViewModel
+    configuration.implementation LifeCycleConfiguration.LifecycleExtensions
+    configuration.implementation LifeCycleConfiguration.LifecycleRuntime
+    configuration.implementation LifeCycleConfiguration.LifecycleLiveData
+    configuration.implementation LifeCycleConfiguration.LifecycleCommon
+    configuration.implementation LifeCycleConfiguration.LifecycleCommonJava8
+}
+
+private void dataConfigurion(configuration) {
+    def DataConfiguration = rootProject.ext.DataConfiguration
+    configuration.implementation DataConfiguration.Retrofit
+    configuration.implementation DataConfiguration.RetrofitRxJavaAdapter
+    configuration.implementation DataConfiguration.RetrofitIntercenptor
+    configuration.implementation DataConfiguration.retrofitGsonConverter
+}
+
+private void uiConfiguration(configuration) {
+    def UiConfiguration = rootProject.ext.UiConfiguration
+    configuration.implementation UiConfiguration.RecyclerView
+    configuration.implementation UiConfiguration.SupportCompat
+    configuration.implementation UiConfiguration.SupportCoreUi
+    configuration.implementation UiConfiguration.SupportFragment
+    configuration.implementation UiConfiguration.AndroidCore
+    configuration.implementation UiConfiguration.CardView
+    configuration.implementation UiConfiguration.AppCompat
+    configuration.implementation UiConfiguration.GoogleMaterial
+    configuration.implementation UiConfiguration.Picasso
+    configuration.implementation UiConfiguration.Fresco
+    configuration.implementation UiConfiguration.RxMaterial
+    configuration.implementation UiConfiguration.Sdp
+    configuration.implementation UiConfiguration.Constraintlayout
+    configuration.implementation UiConfiguration.NavigationFragment
+    configuration.implementation UiConfiguration.NavigationUI
+    configuration.implementation UiConfiguration.ViewPager2
+}
+
+private void applicationConfiguration(configuration) {
+    def ApplicationConfiguration = rootProject.ext.ApplicationConfiguration
+    configuration.implementation ApplicationConfiguration.Timber
+    configuration.implementation ApplicationConfiguration.MultiDexApp
+    configuration.implementation ApplicationConfiguration.LeakCanaryAndroid
+    configuration.implementation ApplicationConfiguration.LeakCanary
+    configuration.implementation ApplicationConfiguration.KotlinJdk
+    configuration.implementation ApplicationConfiguration.EasyPrefs
+    configuration.implementation ApplicationConfiguration.ParcelablePlease
+    configuration.kapt ApplicationConfiguration.ParcelablePleaseProcessor
+}
+
+private void layersConfiguration(configuration) {
+    def layersConfiguration = rootProject.ext.layersConfiguration
+    configuration.implementation project(layersConfiguration.Domain)
+    configuration.implementation project(layersConfiguration.Data)
+    configuration.implementation project(layersConfiguration.Logic)
+}
+
+File googlePlayServicesFile = new File("center-ui/google-services.json")
+if (googlePlayServicesFile.exists()) {
+    print("Google Play Services File Exists ... Start Config Google Play")
+    apply plugin: "${rootProject.ext.FirebasePlugin}"
+    apply plugin: "${rootProject.ext.FabricPlugin}"
+}

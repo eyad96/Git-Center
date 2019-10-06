@@ -1,0 +1,135 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    ext.PluginsVersions = [
+            "GradlePluginV"      : "3.4.2",
+            "KotlinPluginV"      : "1.3.50",
+            "EasyLauncherPluginV": "1.3.1",
+            "FirebasePluginV"    : "4.3.1",
+            "KtlintPluginV"      : "2.1.1",
+            "FabricPluginV"      : "1.28.1",
+            "NavigationPluginV"  : "1.0.0",
+            "AttoPlugin"         : "1.0.1"
+    ]
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url  "https://dl.bintray.com/yt98/Atto" }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:${rootProject.ext.PluginsVersions.GradlePluginV}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.PluginsVersions.KotlinPluginV}"
+        classpath "com.akaita.android:easylauncher:${rootProject.ext.PluginsVersions.EasyLauncherPluginV}"
+        classpath "com.google.gms:google-services:${rootProject.ext.PluginsVersions.FirebasePluginV}"
+        classpath "org.jmailen.gradle:kotlinter-gradle:${rootProject.ext.PluginsVersions.KtlintPluginV}"
+        classpath "io.fabric.tools:gradle:${rootProject.ext.PluginsVersions.FabricPluginV}"
+        classpath "gradle.plugin.io.atto.gradle.plugin:Atto-Plugin:${rootProject.ext.PluginsVersions.AttoPlugin}"
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:${rootProject.ext.PluginsVersions.NavigationPluginV}"
+    }
+
+}
+
+apply from: "libraries.gradle"
+apply from: "plugins.gradle"
+apply from: "details.gradle"
+
+allprojects {
+
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url  "https://dl.bintray.com/yt98/Atto" }
+    }
+}
+
+subprojects {
+    if (!project.name.contains("ui")) {
+
+        apply plugin: "${rootProject.ext.AndroidLibraryPlugin}"
+        apply plugin: "${rootProject.ext.KotlinAndroidPlugin}"
+        apply plugin: "${rootProject.ext.KotlinAndroidExtentionsPlugin}"
+        apply plugin: "${rootProject.ext.KotlinKaptPlugin}"
+
+        android {
+            compileSdkVersion rootProject.ext.CompileSdkV
+            buildToolsVersion "${rootProject.ext.buildToolV}"
+            defaultConfig {
+                minSdkVersion rootProject.ext.MinSdkV
+                targetSdkVersion rootProject.ext.CompileSdkV
+                versionCode rootProject.ext.VersionCode
+                renderscriptTargetApi rootProject.ext.renderscriptTargetApi
+                renderscriptSupportModeEnabled rootProject.ext.renderscriptSupportModeEnabled
+                multiDexEnabled rootProject.ext.MultiDexMergeEnabled
+                versionName "${rootProject.ext.VersionName}"
+                testInstrumentationRunner "${rootProject.ext.AndroidTesting}"
+                buildConfigField "String", "CLIENT_ID", "\"${ClientId}\""
+                buildConfigField "String", "CLIENT_SECRET", "\"${ClientSecret}\""
+            }
+
+            buildTypes {
+
+                debug {
+                    minifyEnabled false
+                    debuggable true
+                    ext.enableCrashlytics = false
+                    buildConfigField "String", "BASE_URL", "\"${DevBaseUrl}\""
+                    manifestPlaceholders = [enableCrashReporting:"false"]
+                    proguardFiles getDefaultProguardFile("${rootProject.ext.ProguardFile}"), "${rootProject.ext.Proguard}"
+                }
+
+                release {
+                    minifyEnabled true
+                    debuggable false
+                    ext.enableCrashlytics = true
+                    buildConfigField "String", "BASE_URL", "\"${ReleaseBaseUrl}\""
+                    manifestPlaceholders = [enableCrashReporting:"true"]
+                    proguardFiles getDefaultProguardFile("${rootProject.ext.ProguardFile}"), "${rootProject.ext.Proguard}"
+                }
+
+            }
+
+        }
+
+        dependencies { config ->
+
+            def RxConfiguration = rootProject.ext.RxConfiguration
+            def KotlinCoroutinesConfiguration = rootProject.ext.KotlinCoroutinesConfiguration
+
+            implementation RxConfiguration.RxJava
+            implementation RxConfiguration.RxAndroid
+
+            implementation KotlinCoroutinesConfiguration.Coroutines
+            implementation KotlinCoroutinesConfiguration.AndroidCoroutines
+
+            daggerConfig(config)
+
+        }
+
+    }
+
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xmaxerrs" << "500"
+    }
+}
+
+void daggerConfig(configuration) {
+    def DependenciesInjection = rootProject.ext.DependenciesInjection
+    configuration.kapt DependenciesInjection.MotifCompiler
+    configuration.implementation DependenciesInjection.Motif
+    configuration.implementation DependenciesInjection.Dagger
+    configuration.kapt DependenciesInjection.DaggerCompiler
+    configuration.implementation DependenciesInjection.DaggerAndroid
+    configuration.implementation DependenciesInjection.DaggerAndroidSupport
+    configuration.kapt DependenciesInjection.DaggerAndroidProcessor
+}

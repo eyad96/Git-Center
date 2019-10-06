@@ -1,0 +1,43 @@
+apply plugin: "${rootProject.ext.AttoPlugin}"
+
+dependencies { configuration ->
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def ApplicationConfiguration = rootProject.ext.ApplicationConfiguration
+    implementation ApplicationConfiguration.EasyPrefs
+
+    implementation "com.google.auto.value:auto-value-annotations:1.6.6"
+    kapt "com.google.auto.value:auto-value:1.6.6"
+
+    testingConfiguration(configuration)
+    dataConfigurion(configuration)
+    roomConfiguration(configuration)
+    layersConfiguration(configuration)
+}
+
+private void testingConfiguration(configuration) {
+    def TestingConfiguration = rootProject.ext.TestingConfiguration
+    configuration.androidTestImplementation TestingConfiguration.Esspresso
+    configuration.androidTestImplementation TestingConfiguration.Runner
+    configuration.testImplementation TestingConfiguration.Junit
+}
+
+private void dataConfigurion(configuration) {
+    def DataConfiguration = rootProject.ext.DataConfiguration
+    configuration.implementation DataConfiguration.Retrofit
+    configuration.implementation DataConfiguration.RetrofitRxJavaAdapter
+    configuration.implementation DataConfiguration.RetrofitIntercenptor
+    configuration.implementation DataConfiguration.retrofitGsonConverter
+}
+
+private void roomConfiguration(configuration) {
+    def RoomConfiguration = rootProject.ext.RoomConfiguration
+//    configuration.implementation RoomConfiguration.RoomRuntime
+//    configuration.implementation RoomConfiguration.RoomKotlin
+//    configuration.implementation RoomConfiguration.RoomRxJava
+//    configuration.kapt RoomConfiguration.RoomCompiler
+}
+
+private void layersConfiguration(configuration) {
+    def layersConfiguration = rootProject.ext.layersConfiguration
+    configuration.implementation project(layersConfiguration.Domain)
+}

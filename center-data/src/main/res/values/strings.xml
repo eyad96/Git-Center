@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">center-data</string>
+
+    <string name="common_error_retry">Retry</string>
+    <string name="common_emptystate_reload">Reload</string>
+
+    <string name="common_unknown_error_emoji" translatable="false">(╯°□°）╯︵ ┻━┻</string>
+    <string name="common_unknown_error_message">Whoops! Something went wrong.</string>
+
+    <string name="common_network_error_emoji" translatable="false">(╯°□°）╯︵ ┻━┻</string>
+    <string name="common_network_error_with_reddit_message">Uh oh, Reddit seems to be unreachable.</string>
+    <string name="common_network_error_with_other_websites_message">Uh oh, the internet seems to be unreachable.</string>
+
+    <string name="common_reddit_is_down_error_emoji" translatable="false">(ಥ_ಥ)</string>
+    <string name="common_reddit_is_down_error_message">You broke Reddit! It\'s under heavy load right now.</string>
+
+    <string name="common_imgur_rate_limit_error_emoji">ಥ_ಥ</string>
+    <string name="common_imgur_request_rate_limit_error_message">Dank has reached its monthly limit of downloading images from Imgur.</string>
+    <string name="common_imgur_upload_rate_limit_error_message">Dank has reached its monthly limit of uploading images to Imgur.</string>
+
+    <string name="common_error_cancelation_emoji">( ͡° ͜ʖ ͡°)</string>
+    <string name="common_error_cancelation_message">Something was intentionally canceled. The user should never see this.</string>
+
+    <string name="common_share_sheet_title">Share with</string>
+
+    <string name="common_error_no_app_found_to_handle_url">No app found to handle url: %s</string>
+    <string name="common_error_no_app_found_to_handle_this_action">No app found to handle this action</string>
+
+    <string name="common_error_known_jraw_emoji" translatable="false">(╯°□°）╯︵ ┻━┻</string>
+    <string name="common_error_known_jraw_message">Please force-kill and restart Dank.\nThis is a known issue and will be fixed soon.</string>
+
+</resources>

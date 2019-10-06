@@ -1,0 +1,14 @@
+ext {
+
+    KtlintPlugin = "org.jlleitschuh.gradle.ktlint"
+    AndroidApplicationPlugin = "com.android.application"
+    KotlinAndroidPlugin = "kotlin-android"
+    EasyLauncherPlugin = "com.akaita.android.easylauncher"
+    KotlinAndroidExtentionsPlugin = "kotlin-android-extensions"
+    KotlinKaptPlugin = "kotlin-kapt"
+    AndroidLibraryPlugin = "com.android.library"
+    FirebasePlugin = "com.google.gms.google-services"
+    FabricPlugin = "io.fabric"
+    navigationPlugin = "androidx.navigation.safeargs"
+    AttoPlugin = "io.atto.gradle.plugin"
+}
