@@ -3,14 +3,7 @@
 Github Client (Android Application) Based On Atto Architecture
 
 
-![](https://img.shields.io/badge/License-Apache%202.0-blue)
-
-![](https://img.shields.io/badge/Version-1.0.0-green)
-![](https://img.shields.io/badge/Android%20Status-AndroidX-green)
-
-![](https://img.shields.io/badge/Language-Kotlin-orange)
-
-![](https://img.shields.io/badge/Project%20Status-Under%20Development-yellow)
+![](https://img.shields.io/badge/License-Apache%202.0-blue)![](https://img.shields.io/badge/Version-1.0.0-green)![](https://img.shields.io/badge/Android%20Status-AndroidX-green)![](https://img.shields.io/badge/Language-Kotlin-orange)![](https://img.shields.io/badge/Project%20Status-Under%20Development-yellow)
 
 Application Api : Github Api V.3
 
